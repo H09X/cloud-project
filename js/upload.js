@@ -1,37 +1,50 @@
-const CLIENT_ID = '317568144806-ior04rcrarhqen3jru2g06spi19vt3vl.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyCZ08vaCREHsmbj7g-_Ny8JDYro5JPOQZQ';
+const CLIENT_ID = '';
+const API_KEY = '';
 const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+
 
 let tokenClient;
 let accessToken = null;
 
 function handleClientLoad() {
+    console.log("Loading Google API client...");
     gapi.load('client', initClient);
 }
 
 function initClient() {
+    console.log("Initializing Google API client...");
     gapi.client.init({
         apiKey: API_KEY,
         discoveryDocs: DISCOVERY_DOCS,
     }).then(() => {
         console.log("Google API client initialized.");
+        setupTokenClient();
     }, (error) => {
         console.error("Error during client initialization:", JSON.stringify(error, null, 2));
     });
+}
 
+function setupTokenClient() {
+    console.log("Setting up token client...");
     tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
         scope: SCOPES,
         callback: (tokenResponse) => {
+            console.log("Token client callback triggered.");
+            if (tokenResponse.error) {
+                console.error("Error in token response:", tokenResponse.error);
+                return;
+            }
             accessToken = tokenResponse.access_token;
-            console.log("Access token acquired.");
+            console.log("Access token acquired:", accessToken);
             document.getElementById('fileInput').addEventListener('change', handleFileSelect);
         },
     });
 }
 
 function handleAuthClick() {
+    console.log("Requesting access token...");
     tokenClient.requestAccessToken();
 }
 
@@ -49,7 +62,8 @@ function uploadFile(file) {
 
     const metadata = {
         'name': file.name,
-        'mimeType': file.type
+        'mimeType': file.type,
+        'parents': ['YOUR_FOLDER_ID'] 
     };
 
     const form = new FormData();
@@ -75,3 +89,5 @@ function uploadFile(file) {
         console.error("Error during file upload:", error);
     });
 }
+
+handleClientLoad();
