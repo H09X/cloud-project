@@ -815,7 +815,7 @@ figure {
 }
 
 .fh5co-blog a img {
-  width: 100%;
+  min-width: 100%;
 }
 
 @media screen and (max-width: 768px) {
