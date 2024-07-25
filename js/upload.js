@@ -1,3 +1,8 @@
+document.getElementById('uploadButton').addEventListener('click', async (event) => {
+    event.preventDefault();
+    await uploadFiles();
+});
+
 async function uploadFiles() {
     const fileInput = document.getElementById('fileInput');
     const files = fileInput.files;
@@ -53,10 +58,13 @@ async function sendToLambda(payload) {
             body: JSON.stringify(payload)
         });
 
+        console.log('Response status:', response.status);
+        console.log('Response status text:', response.statusText);
+
         if (!response.ok) {
             const errorText = await response.text();
-            console.error('Network response was not ok:', response.statusText, errorText);
-            throw new Error('Network response was not ok ' + response.statusText + ' ' + errorText);
+            console.error('Network response was not ok:', errorText);
+            throw new Error('Network response was not ok: ' + errorText);
         }
 
         const data = await response.json();
