@@ -50,7 +50,7 @@ function readFileAsBase64(file) {
 
 async function sendToLambda(payload) {
     try {
-        const response = await fetch('https://305o16nhu2.execute-api.us-east-1.amazonaws.com', {
+        const response = await fetch('https://spxagiyh5f.execute-api.us-east-1.amazonaws.com/prod/upload', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -72,6 +72,7 @@ async function sendToLambda(payload) {
         alert('Files uploaded successfully');
     } catch (error) {
         console.error('Error:', error);
+        alert('Failed to upload files: ' + error.message);
         throw error;
     }
 }
