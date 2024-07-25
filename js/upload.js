@@ -50,7 +50,7 @@ function readFileAsBase64(file) {
 
 async function sendToLambda(payload) {
     try {
-        const response = await fetch('https://spxagiyh5f.execute-api.us-east-1.amazonaws.com/prod/upload', {
+        const response = await fetch('https://ztp9o37uv1.execute-api.us-east-1.amazonaws.com/prod/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
