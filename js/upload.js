@@ -31,7 +31,7 @@ async function uploadFiles() {
             await sendToLambda(payload);
         } catch (error) {
             console.error('Error uploading file:', fileName, error);
-            alert('There was an error uploading the file: ' + fileName);
+            // alert('There was an error uploading the file: ' + fileName);
         }
     }
 }
@@ -69,10 +69,19 @@ async function sendToLambda(payload) {
 
         const data = await response.json();
         console.log('Success:', data);
-        alert('Files uploaded successfully');
+        Swal.fire({
+            title: "Successful",
+            text: "Files uploaded successfully",
+            icon: "success"
+          });
     } catch (error) {
         console.error('Error:', error);
-        alert('Failed to upload files: ' + error.message);
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "File upload failed " + error.message,
+          });
+        // alert('Failed to upload files: ' + error.message);
         throw error;
     }
 }
